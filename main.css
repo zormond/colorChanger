@@ -9,10 +9,36 @@
 	display: block; 
 	margin-left: auto; 
 	margin-right: auto;
-	border:solid;
-	border-color: #9099A2;
 }
 
 button{
-	background-color: #9099A2;
+	background-color: #DF744A;
+	border-color: #DF744A
+}
+
+h1{
+	background-color: #DF744A; 
+	margin:0;
+	padding-top:10px; 
+	padding-bottom: 10px;
+}
+
+#inputHolder{
+	height: auto; 
+	padding: 15px;
+}
+
+#inputDiv{
+	display: flex; 
+	justify-content: space-between;
+}
+
+iframe{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height:auto;
+    border-color: #ff0000;
+    border-width: 5px
 }
