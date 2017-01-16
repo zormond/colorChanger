@@ -1,5 +1,18 @@
 .inputs{
-	margin: 5px 15px 5px 15px;
-	width: 150px;
-	height: 75px;
+	margin-bottom: 5px;
+	width: 25%;
+	height: 25px;
+}
+
+#textArea{
+	width: 98%;
+	display: block; 
+	margin-left: auto; 
+	margin-right: auto;
+	border:solid;
+	border-color: #9099A2;
+}
+
+button{
+	background-color: #9099A2;
 }
