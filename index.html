@@ -4,33 +4,62 @@
 		<link rel="stylesheet" type="text/css" href="main.css">
 	</head>
 
-	<body>
-		<div>
+	<body style="margin: 0 auto;">
+	<center><h1 style="background-color: #6D7993; margin:0;padding-top:10px; padding-bottom: 10px;">The Color Changer</h1></center>
+		<div style="width: 100%; background-color: #96858f">
 			<div id="divText">
-				<textarea id="textArea" rows="25" style="width: 100%;">
+				<textarea id="textArea" rows="25">
 					
 				</textarea>
 			</div>
 			<div style="height: auto; padding: 15px;">
-				<div id="buttonDiv" style="display: flex; justify-content: center; padding-top: 5px;">
-					<select name=""  class="inputs">
-						<option>Option1</option>
-						<option>Option2</option>
-					</select>
-					<input type="color" name="colorPicker" class="inputs">
-					<input type="" name="" class="inputs">
+				<div id="containerDiv">
+					<div id="inputDiv" style="display: flex; justify-content: space-between;">
+						<select name="tags" class="inputs">
+							<option>Option1</option>
+							<option>Option2</option>
+						</select>
+						<input type="color" name="colorPicker" class="inputs">
+						<input type="" name="other" class="inputs">
+					</div>
 				</div>
-				<button class="inputs">Add Style</button>
+				<button  onClick="addDiv()" class="inputs">Add Style</button><br>
+				<button onClick="" class="inputs">Submit</button>
 			</div>
 		</div>
 		<div>
-			<iframe src="" style="height: auto; width: 100%;">
+			<iframe src="" style="width: 100%; height:auto;">
 				
 			</iframe>
 		</div>
-
-
-
+		<script type="text/javascript">
+			var tags = new Array();
+			var colors = new Array();
+			var other = new Array();
+			function addDiv()
+			{
+				var defaultDiv = document.getElementById("inputDiv");
+				var newDiv = defaultDiv.cloneNode(true);
+				document.getElementById("containerDiv").appendChild(newDiv);
+			}
+			/*function submit()
+			{
+				var allStyles = document.getElementById("containerDiv").childNodes;
+				for (var i = 0; i < allStyles.length; i++) 
+				{
+					var children = allStyles[i].childNodes;
+					for (var i = 0; i < children.length; i++) 
+					{
+						if(i===0){tags.push(children[i]);}
+						else if(i===1){colors.push(children[i]);}
+						else{other.push(children[i]);}
+					}
+				}
+				console.log(tags[0]);
+				console.log(colors[0]);
+				console.log(other[0]);
+			}*/
+		</script>
 	</body>
 
 
