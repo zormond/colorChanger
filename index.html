@@ -1,139 +1,135 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="main.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-	</head>
+<head>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-	<body style="margin: 0 auto;">
-	<center><h1>The Color Changer</h1></center>
-		<div style="width: 100%; background-color: #F7CE3E">
-			<div id="divText">
-<textarea id="textArea" rows="25">
+</head>
+
+<body style="margin: 0 auto;">
+<center>
+	<h1>The Color Changer</h1>
+</center>
+<div style="width: 100%; background-color: #F7CE3E">
+<div id="divText">
+	<textarea id="textArea" rows="25">
 <html>
 	<head>
 		<title>Changed Text</title>
 	</head>
 	<body class="awesome" id="cool">
-		<p id="default-p">Change the HTML!</p>
+		<p id="default-p" class="ptag">Change the HTML!</p>
+		<p id="other-p" class="ptag">Change the HTML!</p>
 	</body>
 </html>
 </textarea>
-			</div>
-			<div id="inputHolder">
-				<div id="containerDiv">
-					<div id="inputDiv">
-						<select name="tags" class="inputs">
-						</select>
-						<input type="color" name="colorPicker" class="inputs">
-						<input type="" name="other" class="inputs">
-					</div>
-				</div>
-				<button  onClick="addDiv()" class="inputs">Add Style</button><br>
-				<button onClick="" class="inputs">Submit</button>
-			</div>
+</div>
+<div id="inputHolder">
+	<div id="containerDiv">
+		<div id="inputDiv">
+			<select name="tags" class="inputs">
+				<option>p</option>
+			</select>
+			<select name="property" class="inputs">
+				<option>color</option>
+				<option>background-color</option>
+			</select>
+			<input type="color" name="colorPicker" class="inputs">
 		</div>
-		<div>
-			<iframe id="frame" src="" >
-				
-			</iframe>
-		</div>
-		<script type="text/javascript">
-			var tags = new Array();
-			var colors = new Array();
-			var other = new Array();
-			function addDiv()
-			{
-				var defaultDiv = document.getElementById("inputDiv");
-				var newDiv = defaultDiv.cloneNode(true);
-				document.getElementById("containerDiv").appendChild(newDiv);
-				updateInputs();
-			}
+	</div>
+	<button onClick="colorChanger.addDiv()" class="inputs">Add Style</button><br>
+<button onClick="colorChanger.updateIframe()" class="inputs">Submit</button>
+</div>
+</div>
+<div>
+	<iframe id="frame" src="">
 
+	</iframe>
+</div>
+<script type="text/javascript">
+var colorChanger = {
+    addDiv: function () {
+        var defaultDiv  = document.getElementById("inputDiv");
+        var newDiv      = defaultDiv.cloneNode(true);
 
-			function makeIframe() {
-				var HTMLstr = $('#textArea').val();
-				var blob = new Blob ([HTMLstr], {type: "text/html"});
-				var url = URL.createObjectURL(blob);
-				$('#frame').attr('src', url);
-				setTimeout(getTextTags, 1000);
-			}
+        document.getElementById("containerDiv").appendChild(newDiv);
+        colorChanger.getTextTags();
+    },
 
-			function updateInputs(tags) {
-				console.log('update ran!');
-				var inputs = $('#containerDiv').children();
-				console.log(inputs);
-				var tagStr = "";
-				for (var k = 0; k < tags.length; k++) {
-					tagStr += "<option>" + tags[k] + "</option>";
-				}
+    getTextTags: function () {
+		console.log('this ran');
+        var tags    = new Array();
+        tags        = colorChanger.getTags(tags, $('#frame')[0].contentDocument.children);
+        var id      = [];
+        var cls     = [];
+        var gen     = [];
 
+        for (var i = 0; i < tags.length; i++) {
+            if (tags[i][0] == "#")
+                id.push(tags[i]);
+            else if (tags[i][0] == ".")
+                cls.push(tags[i]);
+            else
+                gen.push(tags[i]);
+        }
 
-				for (var i = 0; i < inputs.length; i++) {
+        var tags = id.concat(cls.concat(gen));
+        colorChanger.updateInputs(tags);
+    },
+    updateInputs: function (tags) {
+        var inputs = $('#containerDiv').children();
+        var tagStr = "";
 
-					inputs[i].children[0].innerHTML = tagStr;
-				}
-			}
+        for (var k = 0; k < tags.length; k++) {
+            tagStr += "<option>" + tags[k] + "</option>";
+        }
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].children[0].innerHTML = tagStr;
+        }
+    },
+    makeIframe: function () {
+		setTimeout(function () {
+			var HTMLstr = $('#textArea').val();
+        var blob    = new Blob([HTMLstr], { type: "text/html" });
+        var url     = URL.createObjectURL(blob);
 
-				function getTextTags() {
-					var tags = new Array();
-					tags 	= getTags(tags, $('#frame')[0].contentDocument.children);
-					var id 	= [];
-					var cls = [];
-					var gen = [];
-					for (var i = 0; i < tags.length; i++) {
-						if (tags[i][0] == "#")
-							id.push(tags[i]);
-						else if (tags[i][0] == ".")
-							cls.push(tags[i]);
-						else 
-							gen.push(tags[i]);
-					}
-					var tags = id.concat(cls.concat(gen));
-					console.log(tags);
+        $('#frame').attr('src', url);
+		}, 100)
+        
+        setTimeout(colorChanger.getTextTags, 200);
+    },
+    getTags: function (arr, node) {
+        //Need to check for duplicates
+        for (var i = 0; i < node.length; i++) {
+            if ($.inArray(node[i].localName, arr) == -1)
+                arr.push(node[i].localName);
+				console.log(node[i].id, node[i].className);
+            if (node[i].id != "" && $.inArray("#" + node[i].id, arr) == -1) arr.push("#" + node[i].id);
+            if (node[i].className != "" && $.inArray("." + node[i].className, arr) == -1) arr.push("." + node[i].className);
+            arr.concat(colorChanger.getTags(arr, node[i].children));
+        }
+        return arr;
+    },
+    updateIframe: function () {
+        var styles = $('#containerDiv').children();
+        var HTMLstr = $('#textArea').val();
+        var blob    = new Blob([HTMLstr], { type: "text/html" });
+        var url     = URL.createObjectURL(blob);
 
-					updateInputs(tags);
-				}
-
-				function getTags(arr, node) {
-
-					//Need to check for duplicates
-					console.log(node);
-					for (var i = 0; i < node.length; i++) {
-						arr.push(node[i].localName);
-						if (node[i].id != "") arr.push("#" + node[i].id);
-						if (node[i].className != "") arr.push("." + node[i].className);
-						arr.concat(getTags(arr, node[i].children));
-					}
-					return arr;
-				}
-
-				makeIframe();
-
-
-
-			
-
-			/*function submit()
-			{
-				var allStyles = document.getElementById("containerDiv").childNodes;
-				for (var i = 0; i < allStyles.length; i++) 
-				{
-					var children = allStyles[i].childNodes;
-					for (var i = 0; i < children.length; i++) 
-					{
-						if(i===0){tags.push(children[i]);}
-						else if(i===1){colors.push(children[i]);}
-						else{other.push(children[i]);}
-					}
-				}
-				console.log(tags[0]);
-				console.log(colors[0]);
-				console.log(other[0]);
-			}*/
-		</script>
-	</body>
+        $('#frame').attr('src', url);
+setTimeout(function() {
+	for (var i = 0; i < styles.length; i++) {
+            var child = styles[i].children;
+            $('#frame').contents().find(child[0].value).css(child[1].value, child[2].value);
+        }
+},100)
+    }
+}
+$(document).ready(colorChanger.makeIframe());
+document.getElementById('textArea').addEventListener('paste', colorChanger.makeIframe);
+</script>
+</body>
 
 
 
