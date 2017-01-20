@@ -2,22 +2,29 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
 	</head>
 
 	<body style="margin: 0 auto;">
 	<center><h1>The Color Changer</h1></center>
 		<div style="width: 100%; background-color: #F7CE3E">
 			<div id="divText">
-				<textarea id="textArea" rows="25">
-					
-				</textarea>
+<textarea id="textArea" rows="25">
+<html>
+	<head>
+		<title>Changed Text</title>
+	</head>
+	<body>
+		<p>Change the HTML!</p>
+	</body>
+</html>
+</textarea>
 			</div>
 			<div id="inputHolder">
 				<div id="containerDiv">
 					<div id="inputDiv">
 						<select name="tags" class="inputs">
-							<option>Option1</option>
-							<option>Option2</option>
 						</select>
 						<input type="color" name="colorPicker" class="inputs">
 						<input type="" name="other" class="inputs">
@@ -28,7 +35,7 @@
 			</div>
 		</div>
 		<div>
-			<iframe src="" >
+			<iframe id="frame" src="" >
 				
 			</iframe>
 		</div>
@@ -42,6 +49,30 @@
 				var newDiv = defaultDiv.cloneNode(true);
 				document.getElementById("containerDiv").appendChild(newDiv);
 			}
+
+
+			function makeIframe() {
+				var HTMLstr = $('#textArea').val();
+				var blob = new Blob ([HTMLstr], {type: "text/html"});
+				var url = URL.createObjectURL(blob);
+				$('#frame').attr('src', url);
+			}
+
+			function getTextTags() {
+				console.log($.parseHTML($('#textArea').val()));
+				var tags = null;
+				var inputs = $('containerDiv').children();
+				for (var i = 0; i < inputs.length; i++) {
+					inputs[i]
+				}
+			}
+			getTextTags();
+			makeIframe();
+
+
+
+
+
 			/*function submit()
 			{
 				var allStyles = document.getElementById("containerDiv").childNodes;
