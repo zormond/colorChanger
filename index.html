@@ -48,6 +48,7 @@
 				var defaultDiv = document.getElementById("inputDiv");
 				var newDiv = defaultDiv.cloneNode(true);
 				document.getElementById("containerDiv").appendChild(newDiv);
+				updateInputs();
 			}
 
 
@@ -59,11 +60,45 @@
 				setTimeout(getTextTags, 1000);
 			}
 
-			function getTextTags() {
-				var tags = new Array();
-				tags = getTags(tags, $('#frame')[0].contentDocument.children);
+			function updateInputs(tags) {
+				console.log('update ran!');
+				var inputs = $('#containerDiv').children();
+				console.log(inputs);
+				var tagStr = "";
+				for (var k = 0; k < tags.length; k++) {
+					tagStr += "<option>" + tags[k] + "</option>";
+				}
+
+
+				for (var i = 0; i < inputs.length; i++) {
+
+					inputs[i].children[0].innerHTML = tagStr;
+				}
+			}
+
+				function getTextTags() {
+					var tags = new Array();
+					tags 	= getTags(tags, $('#frame')[0].contentDocument.children);
+					var id 	= [];
+					var cls = [];
+					var gen = [];
+					for (var i = 0; i < tags.length; i++) {
+						if (tags[i][0] == "#")
+							id.push(tags[i]);
+						else if (tags[i][0] == ".")
+							cls.push(tags[i]);
+						else 
+							gen.push(tags[i]);
+					}
+					var tags = id.concat(cls.concat(gen));
+					console.log(tags);
+
+					updateInputs(tags);
+				}
 
 				function getTags(arr, node) {
+
+					//Need to check for duplicates
 					console.log(node);
 					for (var i = 0; i < node.length; i++) {
 						arr.push(node[i].localName);
@@ -74,14 +109,11 @@
 					return arr;
 				}
 
-				console.log(tags);
-			}
-
-			makeIframe();
+				makeIframe();
 
 
 
-
+			
 
 			/*function submit()
 			{
