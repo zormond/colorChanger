@@ -15,8 +15,8 @@
 	<head>
 		<title>Changed Text</title>
 	</head>
-	<body>
-		<p>Change the HTML!</p>
+	<body class="awesome" id="cool">
+		<p id="default-p">Change the HTML!</p>
 	</body>
 </html>
 </textarea>
@@ -56,17 +56,27 @@
 				var blob = new Blob ([HTMLstr], {type: "text/html"});
 				var url = URL.createObjectURL(blob);
 				$('#frame').attr('src', url);
+				setTimeout(getTextTags, 1000);
 			}
 
 			function getTextTags() {
-				console.log($.parseHTML($('#textArea').val()));
-				var tags = null;
-				var inputs = $('containerDiv').children();
-				for (var i = 0; i < inputs.length; i++) {
-					inputs[i]
+				var tags = new Array();
+				tags = getTags(tags, $('#frame')[0].contentDocument.children);
+
+				function getTags(arr, node) {
+					console.log(node);
+					for (var i = 0; i < node.length; i++) {
+						arr.push(node[i].localName);
+						if (node[i].id != "") arr.push("#" + node[i].id);
+						if (node[i].className != "") arr.push("." + node[i].className);
+						arr.concat(getTags(arr, node[i].children));
+					}
+					return arr;
 				}
+
+				console.log(tags);
 			}
-			getTextTags();
+
 			makeIframe();
 
 
