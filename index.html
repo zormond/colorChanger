@@ -8,9 +8,10 @@
 </head>
 
 <body style="margin: 0 auto;">
-<center>
-	<h1>The Color Changer</h1>
-</center>
+<div id="banner">
+	<h1 align="center">The Color Changer</h1>
+    <div align="right"><button id="refresh">refresh</button></div>
+</div>
 <div style="width: 100%; background-color: #F7CE3E">
 <div id="divText">
 	<textarea id="textArea" rows="25">
@@ -91,13 +92,16 @@ var colorChanger = {
     makeIframe: function () {
 		setTimeout(function () {
 		var HTMLstr = $('#textArea').val();
-        HTMLstr = HTMLstr.replace(/<body /,"<body onload=\"parent.alertsize(document.body.scrollHeight);\"");
-        var blob    = new Blob([HTMLstr], { type: "text/html" });
+        var insertOnLoad = HTMLstr.replace(/<body |<body>/,"<body onload=\"parent.alertsize(document.body.scrollHeight);\"\ ");
+        if(insertOnLoad === HTMLstr)
+        {
+            insertOnLoad = "<body onload=\"parent.alertsize(document.body.scrollHeight);\">\n" + insertOnLoad + "\n</body>";
+        }
+        var blob    = new Blob([insertOnLoad], { type: "text/html" });
         var url     = URL.createObjectURL(blob);
 
         $('#frame').attr('src', url);
 		}, 100)
-        
         setTimeout(colorChanger.getTextTags, 200);
     },
     getTags: function (arr, node) {
@@ -129,8 +133,7 @@ setTimeout(function() {
 }
 $(document).ready(colorChanger.makeIframe());
 document.getElementById('textArea').addEventListener('paste', colorChanger.makeIframe);
-</script>
-<script>
+document.getElementById('refresh').addEventListener('click',colorChanger.makeIframe);
 function alertsize(pixels){
     pixels+=32;
     document.getElementById('frame').style.height=pixels+"px";

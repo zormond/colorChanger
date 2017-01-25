@@ -30,8 +30,15 @@ button{
 	border-color: #DF744A
 }
 
-h1{
-	background-color: #DF744A; 
+#banner{
+	background-color: #DF744A;
+}
+
+#refresh{
+	background-color: white;
+}
+
+h1{ 
 	margin:0;
 	padding-top:10px; 
 	padding-bottom: 10px;
