@@ -90,7 +90,8 @@ var colorChanger = {
     },
     makeIframe: function () {
 		setTimeout(function () {
-			var HTMLstr = $('#textArea').val();
+		var HTMLstr = $('#textArea').val();
+        HTMLstr = HTMLstr.replace(/<body /,"<body onload=\"parent.alertsize(document.body.scrollHeight);\"");
         var blob    = new Blob([HTMLstr], { type: "text/html" });
         var url     = URL.createObjectURL(blob);
 
@@ -128,6 +129,12 @@ setTimeout(function() {
 }
 $(document).ready(colorChanger.makeIframe());
 document.getElementById('textArea').addEventListener('paste', colorChanger.makeIframe);
+</script>
+<script>
+function alertsize(pixels){
+    pixels+=32;
+    document.getElementById('frame').style.height=pixels+"px";
+}
 </script>
 </body>
 
