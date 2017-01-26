@@ -27,6 +27,16 @@ input[type="color"] {
 	height: 30px;
 }
 
+p {
+	text-align: center;
+	padding: 0px 20px;
+}
+
+.styletags {
+text-align: center;
+}
+
+
 input:hover, button:hover, select:hover, option:hover {
 	cursor: pointer;
 }
