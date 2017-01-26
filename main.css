@@ -1,0 +1,114 @@
+/**********************
+******Jason's CSS******
+***********************/
+/*$main-background-color  : #21252b;
+$sub-background-color   : #282C34;
+$main-font-color: #abb2bf;
+$main-font-font: Inconsolata, Monaco, Consolas, 'Courier New', Courier;
+
+*/
+
+* {
+	transition: 1s all;
+	color: #abb2bf;
+	font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier;
+
+}
+
+body {
+	margin: 0px auto;
+	display: flex;
+	justify-content: space-around;
+}
+
+input[type="color"] {
+	border: 0px;
+	background-color: transparent;
+	height: 30px;
+}
+
+input:hover, button:hover, select:hover, option:hover {
+	cursor: pointer;
+}
+
+select {
+	background: #282C34;
+	border: 1px solid #abb2bf;
+	color: #abb2bf;
+	border-radius: 10px;
+}
+
+.app {
+	width: 90%;
+	margin: 50px 0px;
+	border-radius: 10px;
+	background-color: #21252b
+}
+
+.main {
+	width: 100%;
+	background-color: #21252b;
+}
+
+#refresh {
+	margin-right: 20px;
+}
+
+#refresh:hover {
+	cursor: pointer;
+}
+
+/**********************
+****End Jason's CSS****
+***********************/
+
+
+
+.inputs{
+	margin-bottom: 5px;
+	width: 25%;
+	height: 25px;
+}
+
+#textArea{
+	width: 90%;
+	display: block; 
+	background-color: #282C34;
+	border-radius: 10px;
+	border: 2px solid #333;
+	margin: 10px auto;
+}
+
+#banner{
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background-color: #21252b;
+}
+
+h1{ 
+	margin:0;
+	padding-top:10px; 
+	padding-bottom: 10px;
+}
+
+#inputHolder{
+	height: auto; 
+	padding: 15px;
+}
+
+#inputDiv{
+	display: flex; 
+	justify-content: space-between;
+}
+
+iframe{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 95%;
+	margin-left: 2.5%;
+    height:auto;
+    border-color: transparent;
+	background-color: #fff;
+    border-width: 5px
+}

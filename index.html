@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="app">
+<div id="banner">
+	<h1 align="center">The Color Changer</h1>
+    <div align="right"><button class="btn btn-primary" id="refresh">refresh</button></div>
+</div>
+<br>
+<div class="main">
+<div id="divText">
+	<textarea id="textArea" rows="20">
+<html>
+	<head>
+		<title>Changed Text</title>
+	</head>
+	<body class="awesome" id="cool">
+		<p id="default-p" class="ptag">Change the HTML!</p>
+		<p id="other-p" class="ptag">Change the HTML!</p>
+	</body>
+</html>
+</textarea>
+</div>
+<div id="inputHolder">
+	<div id="containerDiv">
+		<div id="inputDiv">
+			<select name="tags" class="inputs">
+				<option>p</option>
+			</select>
+			<select name="property" class="inputs">
+				<option>color</option>
+				<option>background-color</option>
+			</select>
+			<input type="color" name="colorPicker" class="inputs">
+		</div>
+	</div>
+    <button onClick="colorChanger.addDiv()" class="btn btn-primary">Add Style</button><br><br>
+<button onClick="colorChanger.updateIframe()" class="btn btn-primary">Submit</button>
+</div>
+</div>
+<div>
+	<iframe id="frame" src="">
+
+	</iframe>
+</div>
+</div>
+
+<script type="text/javascript">
+var colorChanger = {
+    addDiv: function () {
+        var defaultDiv  = document.getElementById("inputDiv");
+        var newDiv      = defaultDiv.cloneNode(true);
+
+        document.getElementById("containerDiv").appendChild(newDiv);
+        colorChanger.getTextTags();
+    },
+
+    getTextTags: function () {
+        var tags    = new Array();
+        tags        = colorChanger.getTags(tags, $('#frame')[0].contentDocument.children);
+        var id      = [];
+        var cls     = [];
+        var gen     = [];
+
+        for (var i = 0; i < tags.length; i++) {
+            if (tags[i][0] == "#")
+                id.push(tags[i]);
+            else if (tags[i][0] == ".")
+                cls.push(tags[i]);
+            else
+                gen.push(tags[i]);
+        }
+
+        var tags = id.concat(cls.concat(gen));
+        colorChanger.updateInputs(tags);
+    },
+    updateInputs: function (tags) {
+        var inputs = $('#containerDiv').children();
+        var tagStr = "";
+
+        for (var k = 0; k < tags.length; k++) {
+            tagStr += "<option>" + tags[k] + "</option>";
+        }
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].children[0].innerHTML = tagStr;
+        }
+    },
+    makeIframe: function () {
+		setTimeout(function () {
+		var HTMLstr = $('#textArea').val();
+        var insertOnLoad = HTMLstr.replace(/<body |<body>/,"<body onload=\"parent.alertsize(document.body.scrollHeight);\"\ ");
+        if(insertOnLoad === HTMLstr)
+        {
+            insertOnLoad = "<body onload=\"parent.alertsize(document.body.scrollHeight);\">\n" + insertOnLoad + "\n</body>";
+        }
+        var blob    = new Blob([insertOnLoad], { type: "text/html" });
+        var url     = URL.createObjectURL(blob);
+
+        $('#frame').attr('src', url);
+		}, 100)
+        setTimeout(colorChanger.getTextTags, 200);
+    },
+    getTags: function (arr, node) {
+        //Need to check for duplicates
+        for (var i = 0; i < node.length; i++) {
+            if ($.inArray(node[i].localName, arr) == -1)
+                arr.push(node[i].localName);
+            if (node[i].id != "" && $.inArray("#" + node[i].id, arr) == -1) arr.push("#" + node[i].id);
+            if (node[i].className != "" && $.inArray("." + node[i].className, arr) == -1) arr.push("." + node[i].className);
+            arr.concat(colorChanger.getTags(arr, node[i].children));
+        }
+        return arr;
+    },
+    updateIframe: function () {
+        var styles = $('#containerDiv').children();
+        var HTMLstr = $('#textArea').val();
+        var blob    = new Blob([HTMLstr], { type: "text/html" });
+        var url     = URL.createObjectURL(blob);
+
+        $('#frame').attr('src', url);
+setTimeout(function() {
+	for (var i = 0; i < styles.length; i++) {
+            var child = styles[i].children;
+            $('#frame').contents().find(child[0].value).css(child[1].value, child[2].value);
+        }
+},100)
+    }
+}
+$(document).ready(colorChanger.makeIframe());
+document.getElementById('textArea').addEventListener('paste', colorChanger.makeIframe);
+document.getElementById('refresh').addEventListener('click',colorChanger.makeIframe);
+function alertsize(pixels){
+    pixels+=32;
+    document.getElementById('frame').style.height=pixels+"px";
+}
+</script>
+</body>
+
+
+
+	<link rel="stylesheet" type="text/css" href="main.css">
+
+</html>
