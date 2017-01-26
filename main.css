@@ -27,11 +27,16 @@ input[type="color"] {
 	height: 30px;
 }
 
-input:hover, button:hover, select:hover {
+input:hover, button:hover, select:hover, option:hover {
 	cursor: pointer;
 }
 
-
+select {
+	background: #282C34;
+	border: 1px solid #abb2bf;
+	color: #abb2bf;
+	border-radius: 10px;
+}
 
 .app {
 	width: 90%;
@@ -63,7 +68,6 @@ input:hover, button:hover, select:hover {
 	margin-bottom: 5px;
 	width: 25%;
 	height: 25px;
-	color: #000;
 }
 
 #textArea{
