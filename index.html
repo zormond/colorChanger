@@ -2,19 +2,20 @@
 <html>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 </head>
 
-<body style="margin: 0 auto;">
+<body>
+<div class="app">
 <div id="banner">
 	<h1 align="center">The Color Changer</h1>
-    <div align="right"><button id="refresh">refresh</button></div>
+    <div align="right"><button class="btn btn-primary" id="refresh">refresh</button></div>
 </div>
-<div style="width: 100%; background-color: #F7CE3E">
+<br>
+<div class="main">
 <div id="divText">
-	<textarea id="textArea" rows="25">
+	<textarea id="textArea" rows="20">
 <html>
 	<head>
 		<title>Changed Text</title>
@@ -39,8 +40,8 @@
 			<input type="color" name="colorPicker" class="inputs">
 		</div>
 	</div>
-	<button onClick="colorChanger.addDiv()" class="inputs">Add Style</button><br>
-<button onClick="colorChanger.updateIframe()" class="inputs">Submit</button>
+    <button onClick="colorChanger.addDiv()" class="btn btn-primary">Add Style</button><br><br>
+<button onClick="colorChanger.updateIframe()" class="btn btn-primary">Submit</button>
 </div>
 </div>
 <div>
@@ -48,6 +49,8 @@
 
 	</iframe>
 </div>
+</div>
+
 <script type="text/javascript">
 var colorChanger = {
     addDiv: function () {
@@ -59,7 +62,6 @@ var colorChanger = {
     },
 
     getTextTags: function () {
-		console.log('this ran');
         var tags    = new Array();
         tags        = colorChanger.getTags(tags, $('#frame')[0].contentDocument.children);
         var id      = [];
@@ -109,7 +111,6 @@ var colorChanger = {
         for (var i = 0; i < node.length; i++) {
             if ($.inArray(node[i].localName, arr) == -1)
                 arr.push(node[i].localName);
-				console.log(node[i].id, node[i].className);
             if (node[i].id != "" && $.inArray("#" + node[i].id, arr) == -1) arr.push("#" + node[i].id);
             if (node[i].className != "" && $.inArray("." + node[i].className, arr) == -1) arr.push("." + node[i].className);
             arr.concat(colorChanger.getTags(arr, node[i].children));
@@ -143,6 +144,6 @@ function alertsize(pixels){
 
 
 
-
+	<link rel="stylesheet" type="text/css" href="main.css">
 
 </html>
